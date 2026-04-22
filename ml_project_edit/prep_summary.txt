@@ -1,0 +1,43 @@
+Assignment 1 preparation summary
+================================
+
+Created files
+- complaints_assignment_cpu.ipynb
+- complaints_assignment_gpu.ipynb
+- prep_summary.txt
+
+Original notebook sections removed
+- Question 1 exploratory analysis and managerial-insight sections.
+- Logistic-regression branch and duplicate model experiments.
+- TF-IDF text features and large mixed preprocessing pipeline.
+- Hyperparameter search cells (GridSearchCV and RandomizedSearchCV).
+- Threshold-search / validation-selection tables.
+- SHAP interpretation cells.
+- Export, packaging, and zip-submission cells.
+
+Pipeline kept
+- Clean the provided complaint datasets.
+- Derive a small structured feature set from dates, missingness, and narrative presence/length.
+- One-hot encode a reduced categorical feature set.
+- Train one XGBoost binary classifier with a fixed random seed and fixed parameters.
+- Generate validation metrics and inference predictions.
+- Prepare deterministic subset logic for the size sweep.
+- Prepare equivalence-check scaffolding and separate train / inference timing scaffolding.
+
+Chosen GPU framework path and why
+- GPU dataframe work: RAPIDS cuDF.
+- GPU encoding: cudf.get_dummies.
+- GPU model training/inference: XGBoost with device='cuda'.
+- Reason: this keeps the GPU notebook close to the CPU notebook without introducing a larger redesign, and stays within the course tools more cleanly than trying to preserve the original text-heavy sklearn pipeline.
+
+Important assumptions
+- The reduced assignment-prep pipeline uses structured features only, not TF-IDF text.
+- Validation threshold is fixed at 0.50 for simplicity.
+- Equivalence means substantively similar outputs, not exact bit-for-bit equality.
+- The notebooks use only relative paths to the CSV files so they remain portable inside the folder.
+- The missing feature_engineering.py dependency from the original notebook is replaced with inline helper functions.
+
+Blockers or uncertainties
+- The original notebook referenced feature_engineering.py, but that file is not present in this workspace, so only the minimum required feature logic was recreated inline.
+- The GPU notebook is written for a RAPIDS-capable Google Colab GPU runtime. It is not expected to run in a plain local CPU-only environment.
+- GPU and CPU probabilities may differ slightly even when the substantive metrics remain close; the equivalence section uses explicit tolerances for that reason.
